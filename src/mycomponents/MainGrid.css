@@ -1,0 +1,10 @@
+.toolbar-separator {
+  height: 36px;
+  margin: 0 5px;
+  border-left: 1px solid #ddd;
+}
+
+.toolbar-menu-separator {
+  height: 1px;
+  border-bottom: 1px solid #ddd;
+}

@@ -1,0 +1,20 @@
+export { default as HomePage } from "./home/home";
+export { default as ProfilePage } from "./profile/profile";
+export { default as TasksPage } from "./tasks/tasks";
+export { default as PricelistPage } from "./pricelist/pricelist";
+export { default as DealsPage } from "./deals/deals";
+export { default as OrdersPage } from "./orders/orders";
+export { default as ChatGptPage } from "./chatgpt/chatgpt";
+export { default as VCardPage } from "./vcard/vcard";
+export { default as StaffPage } from "./staff/staff";
+export { default as MarksPage } from "./marks/marks";
+export { default as MqttPage } from "./mqtt/mqtt";
+export { default as Deals2Page } from "./deals/deals2";
+export { default as CardPage } from "./card/card";
+
+export { default as InvoicePage } from "./1C/invoices/invoice";
+export { default as RevenuePage } from "./1C/revenue/revenue";
+export { default as StatisticsPage } from "./1C/statistics/statistics.js";
+export { default as StrPage } from "./1C/str/str.js";
+export { default as Revenue2Page } from "./1C/revenue2/revenue2.js";
+export { default as AbcPage } from "./1C/abc/abc.js";
