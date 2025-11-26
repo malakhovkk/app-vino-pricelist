@@ -40,8 +40,6 @@ export default function Content() {
   const [lastDate, setLastDate] = useState("");
   // Нормализация сообщений
   const normalizeIncomingMessage = (m) => {
-    const dateOnly = new Date(m.createdAt ?? m.timestamp ?? new Date());
-    dateOnly.setHours(0, 0, 0, 0); // оставляем только дату
     return {
       _id: m._id ?? m.id ?? `${Date.now()}-${Math.random()}`,
       text: m.text ?? m.message ?? "",
@@ -51,7 +49,7 @@ export default function Content() {
           : m.author?.id ?? m.authorId ?? "unknown",
       authorName: m.authorName ?? m.author?.name ?? m.name ?? "Unknown",
       createdAt: m.createdAt ?? m.timestamp ?? new Date().toISOString(),
-      date: dateOnly.toISOString().split("T")[0],
+      date: m.date.split("T")[0],
     };
   };
 
@@ -64,10 +62,16 @@ export default function Content() {
       setMessages((prev) => {
         const existingIds = new Set(prev.map((m) => m._id));
         const newMessages = arr.filter((m) => !existingIds.has(m._id));
-        return [...prev, ...newMessages];
+        console.log(newMessages);
+        if (newMessages.length > 0)
+          setLastDate(newMessages[newMessages.length - 1].date.split("T")[0]);
+        if (!lastDate) return [...prev, ...newMessages];
+        else {
+          return [...newMessages, ...prev];
+        }
       });
 
-      if (arr.length > 0) {
+      if (arr.length > 0 && !lastDate) {
         lastMessageIdRef.current = arr[arr.length - 1]._id;
       }
 
@@ -109,6 +113,7 @@ export default function Content() {
           ...prev,
           ...arr.filter((m) => !prev.some((pm) => pm._id === m._id)),
         ]);
+        console.log(arr);
         lastMessageIdRef.current = arr[arr.length - 1]._id;
       }
     } catch (err) {
@@ -203,7 +208,12 @@ export default function Content() {
       // }
     };
   }, []);
-
+  // useEffect(() => {
+  //   if (!messages.length) return;
+  //   console.log(messages);
+  //   alert(messages[messages.length - 1].date.split("T")[0]);
+  //   setLastDate(messages[messages.length - 1].date.split("T")[0]);
+  // }, [messages]);
   // chatItems для Chat
   const chatItems = messages.map((m) => ({
     id: m._id,
@@ -255,10 +265,7 @@ export default function Content() {
               backgroundColor: "white",
             }}
           >
-            <Button
-              text="History"
-              onClick={() => setDays((prev) => prev + 1)}
-            />
+            <Button text="History" onClick={() => fetchMessages()} />
           </div>
 
           <Chat
@@ -270,6 +277,7 @@ export default function Content() {
               width: 1000,
               backgroundColor: "white",
             }}
+            key="id"
             user={currentUser}
             items={chatItems}
             onMessageEntered={sendMessage}
