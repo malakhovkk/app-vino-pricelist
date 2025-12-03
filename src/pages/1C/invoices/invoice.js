@@ -183,6 +183,8 @@ export default function Invoice() {
     setInvoiceItems(await getInvoicesItems({ invoice_uid: e.data.uid }));
   };
   const onselection = (e) => {
+    const row = e.selectedRowsData?.[0];
+    if (!row) return;
     console.log(e);
     // e = e.selectedRowsData[0];
     setUid(e.selectedRowsData[0].uid);

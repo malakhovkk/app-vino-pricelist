@@ -19,7 +19,7 @@ import {
 import Button from "devextreme-react/button";
 
 import React, { useRef, useState, useEffect, useCallback } from "react";
-
+import { formatDate } from "devextreme/localization";
 import "./deals.css";
 
 //import { BackgroundColor } from "devextreme-react/cjs/chart.js";
@@ -38,7 +38,7 @@ import { SelectBox, TextArea, TextBox } from "devextreme-react";
 import DateBox from "devextreme-react/date-box";
 import { receiveTable } from "../../api/auth";
 import { fetchDataDeals } from "../../restApi";
-
+import { GetStocks } from "../../restApi";
 const FormatCurrency = "#0.00;(#0.00)";
 
 export default function Deals() {
@@ -122,6 +122,7 @@ export default function Deals() {
     return <DataGrid dataSource={getProducts(props.data.data.id)}> </DataGrid>;
   };
   const DetailSection = (props) => {
+    if (!data) return null;
     let d = props.data;
     console.log("master-details");
     console.log(d);
@@ -572,12 +573,16 @@ export default function Deals() {
   const sendAdditionalInfo = async () => {
     console.log(date);
     let mydate;
+    // if (date) {
+    //   try {
+    //     mydate = date.toISOString().split("T")[0];
+    //   } catch (e) {
+    //     mydate = date.split("T")[0];
+    //   }
+    // }
+    console.log(date);
     if (date) {
-      try {
-        mydate = date.toISOString().split("T")[0];
-      } catch (e) {
-        mydate = date.split("T")[0];
-      }
+      mydate = formatDate(date, "yyyy-MM-dd");
     }
     // Сохранение в REST API
     const res = updateDealExtraInfo({
@@ -649,7 +654,14 @@ export default function Deals() {
   const onfocus = (e) => {
     console.log("OnFocus = ", e);
   };
-
+  const [shops, setShops] = useState();
+  useEffect(() => {
+    (async function () {
+      const s = await GetStocks();
+      setShops(s);
+    })();
+  }, []);
+  const [shopid, setShopId] = useState("");
   return (
     <>
       {showFilter && (
@@ -664,7 +676,40 @@ export default function Deals() {
           showCloseButton={true}
           hideOnOutsideClick={true}
         >
+          {/* <SelectBox
+            placeholder="Выберите магазин"
+            dataSource={shops}
+            displayExpr="name"
+            defaultValue={shopid}
+            searchEnabled={true}
+            searchMode={"contains"}
+            width={"300px"}
+            onValueChanged={shop2Change}
+            showClearButton={true}
+            // inputAttr={templatedProductLabel}
+            valueExpr="id"
+            // defaultValue={partners[0].uid}
+          /> */}
           <div className="dx-fieldset">
+            <div className="dx-field">
+              <div className="dx-field-label">Магазин: </div>
+              <div className="dx-field-value">
+                <SelectBox
+                  placeholder="Выберите магазин"
+                  dataSource={shops}
+                  displayExpr="name"
+                  defaultValue={shopid}
+                  searchEnabled={true}
+                  searchMode={"contains"}
+                  width={"100%"}
+                  onValueChanged={(e) => setShopId(e.value)}
+                  showClearButton={true}
+                  // inputAttr={templatedProductLabel}
+                  valueExpr="id"
+                  // defaultValue={partners[0].uid}
+                />
+              </div>
+            </div>
             <div className="dx-field">
               <div className="dx-field-label">Дата начала: </div>
               <div className="dx-field-value">
@@ -781,22 +826,25 @@ export default function Deals() {
                   let mydate1, mydate2;
                   console.log(date1, date2);
                   if (date1) {
-                    try {
-                      mydate1 = date1.toISOString().split("T")[0];
-                    } catch (e) {
-                      mydate1 = date1.split("T")[0];
-                    }
+                    // try {
+                    //   mydate1 = date1.toISOString().split("T")[0];
+                    // } catch (e) {
+                    //   mydate1 = date1.split("T")[0];
+                    // }
+
+                    mydate1 = formatDate(date1, "yyyy-MM-dd");
                   }
                   if (date2) {
-                    try {
-                      mydate2 = date2.toISOString().split("T")[0];
-                    } catch (e) {
-                      mydate2 = date2.split("T")[0];
-                    }
+                    // try {
+                    //   mydate2 = date2.toISOString().split("T")[0];
+                    // } catch (e) {
+                    //   mydate2 = date2.split("T")[0];
+                    // }
+                    mydate2 = formatDate(date2, "yyyy-MM-dd");
                   }
                   console.log(mydate1, mydate2);
                   const res = await getDeals({
-                    shop: "7c803cc7-bd61-11eb-9672-a8a1595a0d25",
+                    shop: shopid,
                     status,
                     deal_type: deal,
                     date1: mydate1,

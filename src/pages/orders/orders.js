@@ -12,9 +12,13 @@ import DataGrid, {
 import { MasterDetail } from "devextreme-react/cjs/data-grid";
 import { GetOrdercontent } from "../../restApi";
 import { Button, DateBox } from "devextreme-react";
-import { formatDate } from "devextreme/localization";
+// import { formatDate } from "devextreme/localization";
+import { formatDate, formatNumber } from "devextreme/localization";
 const FormatCurrency = "#0.00;(#0.00)";
-
+function formatDate2(date) {
+  //console.log("date.getDate.toDateString()", utils.removeTime(date));
+  return formatDate(date, "yyyy-MM-dd");
+}
 const MasterDetailView = (e) => {
   console.log(e);
   const [data, setData] = useState([]);
@@ -55,14 +59,14 @@ export default function Orders() {
     new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
   );
   const [date2, setDate2] = useState(new Date());
-  useEffect(() => {
-    (async function () {
-      let orders;
-      orders = await getOrders();
-      console.log(orders);
-      setOrders(orders);
-    })();
-  }, []);
+  // useEffect(() => {
+  //   (async function () {
+  //     let orders;
+  //     orders = await getOrders();
+  //     console.log(orders);
+  //     setOrders(orders);
+  //   })();
+  // }, []);
   const date1Change = (e) => {
     setDate1(e.value);
   };

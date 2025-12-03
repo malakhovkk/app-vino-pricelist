@@ -141,6 +141,7 @@ export default function VCard() {
   console.log("Input: ", input);
   const [personId, setPersonId] = useState();
   const handleSelectionChanged = (e) => {
+    if (!e.selectedRowsData || e.selectedRowsData.length === 0) return;
     setInput(e.selectedRowsData[0]);
     setEditdata(e.selectedRowsData[0]);
     setPersonId(e.selectedRowsData[0].personid);
@@ -170,7 +171,7 @@ export default function VCard() {
                   showClearButton={true}
                   placeholder="Введите запрос..."
                   valueChangeEvent="keyup"
-                  value={editdata[field]}
+                  value={input[field]}
                   onValueChange={(e) => {
                     console.log(">>>", e);
                     setInput({ ...input, [field]: e });
