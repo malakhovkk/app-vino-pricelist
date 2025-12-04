@@ -202,10 +202,10 @@ export async function getDeals(data) {
       }
       let str =
         `http://194.87.239.231:55555/api/deal?` +
-        (shop ? `shop=${shop}&` : "") +
-        (status ? `status=${status}&` : "") +
-        (deal_type ? `deal_type=${deal_type}&` : "") +
-        (statusvp ? `statusvp=${statusvp}&` : "") +
+        (shop !== undefined ? `shop=${shop}&` : "") +
+        (status !== undefined ? `status=${status}&` : "") +
+        (deal_type !== undefined ? `deal_type=${deal_type}&` : "") +
+        (statusvp !== undefined ? `statusvp=${statusvp}&` : "") +
         `date1=${date1}&date2=${date2}`;
       const deals = await axios(`${str}`, {
         headers: {

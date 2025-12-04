@@ -277,7 +277,7 @@ export default function Content() {
               width: 1000,
               backgroundColor: "white",
             }}
-            key="id"
+            keyExpr="_id"
             user={currentUser}
             items={chatItems}
             onMessageEntered={sendMessage}
