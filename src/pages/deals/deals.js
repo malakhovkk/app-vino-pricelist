@@ -842,7 +842,7 @@ export default function Deals() {
                     // }
                     mydate2 = formatDate(date2, "yyyy-MM-dd");
                   }
-                  alert(status,  deal, statusVP)
+                  // alert(status,  deal, statusVP)
                   const res = await getDeals({
                     shop: shopid,
                     status,
