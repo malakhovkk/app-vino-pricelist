@@ -215,6 +215,9 @@ export default function Deals() {
     "c2ea652c-087e-11ef-8c17-d09466028ae0": {
       url: "",
     },
+    "a46f1f68-bea4-40ec-94fa-cfa2b0961cd0": {
+      url: "",
+    },
   };
 
   String.prototype.format = function (args) {
@@ -227,6 +230,8 @@ export default function Deals() {
   };
 
   const getURL_partnerCRM = (dealJson) => {
+    console.log(partnerJson[dealJson.ownerId]);
+    if (partnerJson[dealJson.ownerId] === undefined) return "";
     const url = partnerJson[dealJson.ownerId].url;
     // console.log("ownerId>>", dealJson.ownerId);
     // console.log("url=", url);
