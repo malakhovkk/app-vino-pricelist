@@ -7,11 +7,13 @@
   min-height: 100%;
   height: 100%;
   width: 250px !important;
+  background-color: $base-bg !important;
 
   .menu-container {
     min-height: 100%;
     display: flex;
     flex: 1;
+    background-color: $base-bg;
 
     .dx-treeview {
       // ## Long text positioning
